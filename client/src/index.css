@@ -1,0 +1,196 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    color-scheme: dark;
+    font-size: 14px;
+  }
+
+  body {
+    @apply bg-canvas text-zinc-100 font-sans;
+    font-feature-settings: 'cv01', 'cv02', 'cv03', 'tnum', 'ss01';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.01em;
+  }
+
+  /* Tight scrollbars matching the ledger aesthetic */
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 0; }
+  ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+
+  /* Selection */
+  ::selection { background: rgba(250,250,250,0.12); }
+}
+
+@layer components {
+
+  /* ── Typography scale ─────────────────────────────── */
+  .label-xs {
+    font-size: 0.625rem;
+    line-height: 0.875rem;
+    @apply font-medium uppercase tracking-widest text-zinc-500;
+  }
+  .label-sm {
+    @apply text-xs font-medium uppercase tracking-wider text-zinc-400;
+  }
+  .mono-num {
+    @apply font-mono tabular-nums tracking-tight;
+  }
+
+  /* ── Layout wrappers ──────────────────────────────── */
+  .ledger-divider {
+    @apply border-t border-zinc-800/60;
+  }
+
+  /* ── Incident row ─────────────────────────────────── */
+  .incident-row {
+    @apply border-b border-zinc-800/60 px-4 py-3.5 cursor-pointer
+           transition-colors duration-75;
+  }
+  .incident-row:hover {
+    @apply bg-zinc-900/40;
+  }
+  .incident-row.selected {
+    @apply bg-zinc-900/70 border-l-2 border-l-zinc-400;
+    padding-left: calc(1rem - 2px);
+  }
+
+  /* ── Status badges ────────────────────────────────── */
+  .status-badge {
+    font-size: 0.625rem;
+    line-height: 0.875rem;
+    @apply inline-flex items-center font-mono font-semibold
+           tracking-widest px-1.5 py-0.5 rounded-sm border;
+  }
+  .status-hold {
+    @apply status-badge bg-red-950/40 text-red-400 border-red-900/50;
+  }
+  .status-review {
+    @apply status-badge bg-orange-950/40 text-orange-400 border-orange-900/50;
+  }
+  .status-mfa {
+    @apply status-badge bg-yellow-950/40 text-yellow-400 border-yellow-900/50;
+  }
+  .status-cleared {
+    @apply status-badge bg-emerald-950/30 text-emerald-400 border-emerald-900/40;
+  }
+
+  /* ── Modality chip ────────────────────────────────── */
+  .modality-chip {
+    font-size: 0.625rem;
+    line-height: 0.875rem;
+    @apply inline-flex items-center font-mono font-medium
+           px-1.5 py-0.5 rounded-sm border border-zinc-700/60
+           bg-zinc-900 text-zinc-400 tracking-wider uppercase;
+  }
+
+  /* ── Metric stat card (header ribbon) ────────────── */
+  .ribbon-stat {
+    @apply flex flex-col gap-0.5 px-5 border-r border-zinc-800/60 last:border-0;
+  }
+  .ribbon-stat-value {
+    @apply text-lg font-mono font-semibold tabular-nums tracking-tight text-zinc-100;
+  }
+  .ribbon-stat-label {
+    font-size: 0.625rem;
+    line-height: 0.875rem;
+    @apply uppercase tracking-widest text-zinc-500 font-medium;
+  }
+
+  /* ── Filter chips ─────────────────────────────────── */
+  .filter-chip {
+    @apply px-3 py-1 text-xs font-medium rounded-sm border border-zinc-800
+           text-zinc-400 bg-transparent transition-colors duration-100
+           cursor-pointer select-none whitespace-nowrap;
+  }
+  .filter-chip:hover {
+    @apply border-zinc-600 text-zinc-200;
+  }
+  .filter-chip.active {
+    @apply bg-zinc-100 text-zinc-950 border-zinc-100 font-semibold;
+  }
+
+  /* ── Tab switcher ─────────────────────────────────── */
+  .tab-btn {
+    @apply px-4 py-2 text-xs font-medium text-zinc-500 border-b-2
+           border-transparent transition-all duration-100 whitespace-nowrap cursor-pointer;
+  }
+  .tab-btn:hover { @apply text-zinc-300; }
+  .tab-btn.active {
+    @apply text-zinc-100 border-zinc-100;
+  }
+
+  /* ── Score bar (SHAP / waterfall) ────────────────── */
+  .score-bar-pos {
+    @apply h-3 rounded-none;
+    background: #ef4444;
+    opacity: 0.75;
+  }
+  .score-bar-neg {
+    @apply h-3 rounded-none;
+    background: #22c55e;
+    opacity: 0.75;
+  }
+
+  /* ── Forensic table row ───────────────────────────── */
+  .forensic-row {
+    @apply grid grid-cols-[140px_1fr_80px] items-center gap-3
+           py-2.5 border-b border-zinc-800/50 last:border-0;
+  }
+
+  /* ── Leaderboard entry ────────────────────────────── */
+  .sink-entry {
+    @apply flex items-start justify-between py-3 border-b border-zinc-800/50 last:border-0;
+  }
+
+  /* ── Action buttons ───────────────────────────────── */
+  .action-btn {
+    @apply flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium
+           rounded-sm border border-zinc-700 text-zinc-400
+           hover:border-zinc-500 hover:text-zinc-200 transition-colors duration-100;
+  }
+  .action-btn-primary {
+    @apply action-btn bg-zinc-100 text-zinc-950 border-zinc-100
+           hover:bg-white hover:border-white hover:text-zinc-950;
+  }
+
+  /* ── Search input ─────────────────────────────────── */
+  .search-input {
+    @apply w-full bg-transparent text-zinc-200 placeholder-zinc-600
+           text-sm font-mono outline-none;
+  }
+
+  /* ── Shimmer loading ──────────────────────────────── */
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  .shimmer {
+    background: linear-gradient(90deg, #18181b 25%, #1f1f23 50%, #18181b 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  /* ── Live pulse dot ───────────────────────────────── */
+  .live-dot {
+    @apply w-1.5 h-1.5 rounded-full bg-emerald-500 animate-blink;
+  }
+
+  /* ── R_k score pill ───────────────────────────────── */
+  .risk-pill {
+    @apply inline-flex items-center mono-num text-xs font-semibold
+           px-2 py-0.5 rounded-sm border;
+  }
+  .risk-critical { @apply risk-pill bg-red-950/40 text-red-400 border-red-900/50; }
+  .risk-high     { @apply risk-pill bg-orange-950/40 text-orange-400 border-orange-900/50; }
+  .risk-medium   { @apply risk-pill bg-yellow-950/40 text-yellow-400 border-yellow-900/50; }
+  .risk-low      { @apply risk-pill text-zinc-500 border-zinc-800 bg-transparent; }
+}
